@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Anasayfa - Blog{% endblock %}
+
+{% block content %}
+<div class="background-gray">
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="main-content">
+
+                <div class="card-container">
+                    {% for post in page_obj %}
+                    <div class="card">
+
+                        <!-- Kart Resmi -->
+                        {% if post.image %}
+                        <div class="card-image">
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        </div>
+                        {% endif %}
+                        {% if post.categories.all %}
+                            {% for category in post.categories.all %}
+                            <div class="card-category">
+                                <a href="{% url 'blog_category' category.slug %}">{{ category.name }}</a>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <!-- Kart İçeriği -->
+                        <div class="card-content">
+                            <a href="{% url 'blog_detail' post.slug %}">
+                                <h3>{{ post.title }}</h3>
+                                <p class="card-meta">{{ post.created_at|date:"F d, Y" }}</p>
+                                <p class="card-excerpt">{{ post.content|truncatewords:25|safe }}</p>
+                                <a href="{% url 'blog_detail' post.slug %}" class="card-button">Continue Reading</a>
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>Henüz yazı yok.</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Sayfalama -->
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-warning">Previous</a>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <span class="btn btn-warning active">{{ num }}</span>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a href="?page={{ num }}" class="btn btn-warning">{{ num }}</a>
+                            {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                            <a href="?page={{ num }}" class="btn btn-warning">{{ num }}</a>
+                            {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+                            <span class="btn btn-warning">...</span>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-warning">Next</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
