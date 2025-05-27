@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Kategori: {{ category.name }}{% endblock %}
+
+{% block content %}
+<style>
+
+</style>
+<div class="container">
+    <div class="main-content">
+
+        <div class="card-container">
+            {% for post in posts %}
+            
+            <div class="card">
+                    {% if post.image %}
+                    <div class="card-image">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                    </div>
+                    {% endif %}
+                {% if post.categories.all %}
+                    {% for category in post.categories.all %}
+                    <div class="card-category">
+                        <a href="{% url 'blog_category' category.slug %}">{{ category.name }}</a>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="card-content">
+                    <a href="{% url 'blog_detail' post.slug %}">
+                        <h3>{{ post.title }}</h3>
+                        <p class="card-meta">{{ post.created_at|date:"F d, Y" }}</p>
+                        <p class="card-excerpt">{{ post.content|truncatewords:25|safe }}</p>
+                        <a href="{% url 'blog_detail' post.slug %}" class="card-button">Continue Reading</a>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p>Bu kategoride henüz yazı yok.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <div class="about-content">
+        <div class="about-text">
+            <div class="dynamic-text-container">
+                <h1 class="dynamic-text">
+                    About <span id="dynamic-word" class="robotic-animation">Me</span>
+                </h1>
+            </div>
+            <div class="about-header">
+                <p> I’m Ömer; I take great pleasure in building cloud infrastructures, optimizing CI/CD pipelines, and writing code.</p>
+            </div>
+            {% comment %} <div class="about-links">
+                <a href="https://facebook.com" target="_blank">Facebook</a>
+                <a href="https://instagram.com" target="_blank">Instagram</a>
+                <a href="https://twitter.com" target="_blank">Twitter</a>
+                <a href="https://behance.net" target="_blank">Behance</a>
+                <a href="mailto:example@example.com">E-mail</a>
+            </div> {% endcomment %}
+        </div>
+
+
+    </div>
+</div>
+<script src="{% static 'blog/about.js' %}"></script>
+{% endblock %}

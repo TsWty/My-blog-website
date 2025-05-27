@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: .
+    container_name: my_backend_server
+    ports:
+       - "8000:8000"
+    volumes:
+      - "./backend:/app"
+  db:
+    build: alpine/sqlite:latest
+    volumes:
+      - ./veritabani:/data
+    ports:
+      - "80:80"
